@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ENDPOINT } from './../config/development';
+import { ENDPOINT } from './../config/production';
 import './../config/';
 
 export default function insertItemData(data, tableName) {

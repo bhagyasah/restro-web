@@ -71,7 +71,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     order: {
       ...order,
-      tableNo: table.name,
+      tableNo: table && table.name,
       items: !order.items ? [] : order.items.map(item => ({
         ...item,
         menuName: menuName(item.menuItemId, state),

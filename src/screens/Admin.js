@@ -17,7 +17,7 @@ class Admin extends Component {
     const { api, onLogout } = this.props;
     return (
       <div>
-        <Grid stretched style={{ marginTop: '100px' }} centered verticalAlign="top" columns={2}>
+        <Grid style={{ marginTop: '100px' }} centered verticalAlign="top" columns={2}>
           <Grid.Row>
             <Grid.Column>
               <Orders api={api} />

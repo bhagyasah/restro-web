@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
-import { Icon } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import Timer from '../components/Timer';
+import getRecords from './../reducers/getRecords';
 import ItemTypes from './ItemTypes';
 
-
-const style = {
-  position: 'absolute',
-  width: 100,
-  height: 80,
-  rotate: 90,
-  color: 'black',
-  border: '1px dashed gray',
-  backgroundColor: 'white',
-  cursor: 'move',
-};
 
 const tableSource = {
   beginDrag(props) {
@@ -31,67 +22,100 @@ function collect(connectprops, monitor) {
 }
 
 
-class TableObj extends Component {
+class Table extends Component {
 
-    static propTypes = {
-      connectDragSource: PropTypes.func.isRequired,
-      isDragging: PropTypes.bool.isRequired,
-      left: PropTypes.number.isRequired,
-      top: PropTypes.number.isRequired,
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      hideSourceOnDrag: PropTypes.bool.isRequired,
-      children: PropTypes.node.isRequired,
-      rotationAngle: PropTypes.number.isRequired,
-      currentTableId: PropTypes.func.isRequired,
-    }
-    state = {
+  static propTypes = {
+    connectDragSource: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    left: PropTypes.number.isRequired,
+    top: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    hideSourceOnDrag: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
+    rotationAngle: PropTypes.number.isRequired,
+    currentTableId: PropTypes.func.isRequired,
+  }
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
       colorBackground: false,
-    }
+    };
+  }
 
-    changeBackGroundColor() {
-      this.setState({
-        colorBackground: !this.state.colorBackground,
-      });
-    }
 
-    render() {
-      const {
-        hideSourceOnDrag,
-        left,
-        top,
-        id,
-        name,
-        rotationAngle,
-        connectDragSource,
-        isDragging,
-        children,
-      } = this.props;
-      if (isDragging && hideSourceOnDrag) {
-        return null;
-      }
+style = {
+  width: 100,
+  height: 80,
+  rotate: 90,
+  position: this.props.position && 'absolute',
+  cursor: this.props.position && 'move',
+};
 
-      return connectDragSource(
-        <div
-          id="table"
-          style={{
-            ...style,
-            left,
-            top,
-            backgroundColor: this.state.colorBackground ? 'blue' : '#fff',
-            transform: `rotate(${rotationAngle}deg)`,
-            }}>
-          <Icon
-            size="big"
-            link
-            name="table"
-            onClick={() => { this.props.currentTableId(id); this.changeBackGroundColor(); }}
-          />
-          <h5>{ name }</h5>
-          {children}
-        </div>);
-    }
+changeBackGroundColor= id => () => {
+  this.setState({
+    colorBackground: !this.state.colorBackground,
+  });
+  this.props.currentTableId(id);
 }
+  contentHandler = (name, id) => () => {
+    this.props.switchToOrder(id);
+  };
 
+  render() {
+    const {
+      hideSourceOnDrag,
+      left,
+      top,
+      id,
+      name,
+      position,
+      rotationAngle,
+      connectDragSource,
+      isDragging,
+      children,
+    } = this.props;
+    if (isDragging && hideSourceOnDrag) {
+      return null;
+    }
+    const activeTable = Object.assign({}, this.props.orders.find(order => order.tableId === id));
+    const status = activeTable.tableId === id;
+    const startTime = activeTable.timestamp;
 
-export default DragSource(ItemTypes.TABLE, tableSource, collect)(TableObj);
+    return connectDragSource(
+      <div
+        id="table"
+        style={{
+          ...this.style,
+          left,
+          top,
+          backgroundColor: (position && this.state.colorBackground) ? 'blue' : ' ',
+          transform: `rotate(${rotationAngle}deg)`,
+          }}
+        className="table"
+        onClick={(!this.props.position && this.contentHandler(name, id)) || this.changeBackGroundColor(id)}
+        role="button"
+        tabIndex={id}
+        onKeyDown={this.contentHandler(name, id)}
+      >
+        <div className="table-name">{name}</div>
+        { status ? <div className="table-timmer"> <Timer startTime={startTime} /></div> : <div className="table-available">Available</div>}
+        {children}
+      </div>
+    );
+  }
+}
+Table.propTypes = {
+  orders: PropTypes.arrayOf.isRequired,
+  switchToOrder: PropTypes.func.isRequired,
+  position: PropTypes.string.isRequired,
+};
+const mapStateToProps = (state) => {
+  return {
+    tables: getRecords(state, { schema: 'Table' }),
+    orders: getRecords(state, { schema: 'Order' }),
+  };
+};
+export default connect(mapStateToProps)(DragSource(ItemTypes.TABLE, tableSource, collect)(Table));

@@ -1,0 +1,104 @@
+
+  .waiter-orders {
+      .header {
+        text-align: center;
+        background: whitesmoke;
+        margin-bottom: 10px;
+      }
+    .table-body{
+        @include flex;
+        height: 150px;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+    .current-order-table-body{
+      @include grid(10,0px);
+      .table{
+       // background: aliceblue;
+        margin-left: 5px;
+        height: 150px;
+        max-width: 500px;
+        overflow: hidden;
+        overflow-y: scroll;
+        grid-column: 1/9;
+      }
+      .order-button{
+        text-align: center;
+        grid-column: 9/11;
+        margin-top: 50px;
+      }
+    }
+    .menu-item{
+      @include flex;
+      .sub-menu-item{
+       // flex: 0 0 100%;
+        .header{
+          text-align: center;
+          flex: 0 0 100%;
+        }
+        .body{
+          height: 200px;
+          overflow: hidden;
+          overflow-y: scroll;
+          font-size: 20px;
+          text-align: center;
+          background:#fff;
+
+
+        }
+      }
+      .menu-item-box{
+        overflow: hidden;
+        padding: 5px;
+        text-align: center;
+        min-width: 100px;
+        min-height: 100px;
+        max-height: 100px;
+        max-width: 100px;
+        margin: 5px;
+        font-size: 15px;
+        font-weight: bold;
+        background: gray;
+        overflow-x: scroll;
+        color: #000;
+      }
+    }
+}
+
+
+.item-element{
+  @include flex;
+  justify-content: start;
+  margin: 5px;
+  .item-sn{
+   margin-right: 10px;
+  }
+  .item-minus{
+    align-items: flex-start;
+   margin-right: 5px;
+    Button{
+      align-items: center;
+    }
+  }
+  .item-name{
+   text-align: start;
+   overflow: hidden;
+   text-align: center;
+    font-size: 12px;
+    margin-left: 0px;
+    margin-right: 10px;
+    Tag{
+      margin:20px;
+    }
+  }
+  .item-plus{
+   // flex-grow: 2;
+  }
+}
+
+
+
+
+
+
+

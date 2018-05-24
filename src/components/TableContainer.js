@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Icon, Segment, Menu,Popup } from 'semantic-ui-react';
+import { Table, Icon, Popup } from 'semantic-ui-react';
 import { DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 import TableObj from './Table';
-import MenuItems from './MenuItems';
-import AddUser from './forms/AddUser';
+import Timer from './Timer';
 import getRecords from '../reducers/getRecords';
 import { SchemaModal } from './../components/schema';
 import AddTable from './forms/AddTable';
-
 
 const styles = {
   width: '100%',
@@ -42,13 +40,11 @@ class TableContainer extends Component {
     super(props);
     this.state = {
       showTable: false,
-      activeItem: 'home',
       currentTableId: null,
       showEditTable: false,
       addTable: false,
     };
   }
-  menuhandleItemClick = (e, { name }) => this.setState({ activeItem: name });
   showTableSettingController() {
     return (
       <div>
@@ -58,7 +54,7 @@ class TableContainer extends Component {
             name="edit"
             color="blue"
             size="big"
-            onClick={() => this.setState({ showEditTable: !this.state.showEditTable })}
+            onClick={() => this.state.currentTableId && this.setState({ showEditTable: !this.state.showEditTable })}
           />}
           content="Edit Table Name"
           hideOnScroll
@@ -83,7 +79,10 @@ class TableContainer extends Component {
               name="repeat"
               color="blue"
               size="big"
-              onClick={() => this.props.api.updateTable({ angle: 90 }, this.state.currentTableId)}
+              onClick={() => {
+               const currentAngle = this.state.currentTableId && this.props.tables.find(table => table.id === this.state.currentTableId).angle;
+                this.props.api.updateTable({ angle: (currentAngle + 90) }, this.state.currentTableId);
+              }}
             />}
           content="Rotate Table"
           hideOnScroll
@@ -113,9 +112,18 @@ class TableContainer extends Component {
     });
   }
 
+  cellValueProvider = (table) => {
+    const totalOrder = this.props.orders.filter(order => order.tableId === table.id).length;
+    const activeTable = Object.assign({}, this.props.orders.find(order => order.tableId === table.id));
+    const status = activeTable && activeTable.status;
+    const startTime = activeTable.timestamp;
+    const activeTableshow = activeTable && activeTable.tableId === table.id;
+
+    return { totalOrder, activeTable, status, startTime, activeTableshow };
+  };
+
   render() {
     const { connectDropTarget } = this.props;
-    const { showTable, activeItem } = this.state;
     const { tables } = this.props;
     return (
       <Table celled>
@@ -128,14 +136,14 @@ class TableContainer extends Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {tables.map(table => (
-            <Table.Row key={table.id}>
-              <Table.Cell>{table.name}</Table.Cell>
-              <Table.Cell>{table.occupancy}</Table.Cell>
-              <Table.Cell>{table.totalOrder}</Table.Cell>
-              <Table.Cell>{table.status}</Table.Cell>
-            </Table.Row>
-          ))
+          {tables.map(table => this.cellValueProvider(table).activeTableshow &&
+          <Table.Row key={table.id}>
+            <Table.Cell>{table.name}</Table.Cell>
+            <Table.Cell>{<Timer startTime={this.cellValueProvider(table).startTime} />}</Table.Cell>
+            <Table.Cell>{this.cellValueProvider(table).totalOrder}</Table.Cell>
+            <Table.Cell>{this.cellValueProvider(table).status}</Table.Cell>
+          </Table.Row>
+          )
           }
           <Table.Row textAlign="center">
             <Table.HeaderCell colSpan="4">
@@ -150,6 +158,7 @@ class TableContainer extends Component {
                         <TableObj
                           id={id}
                           name={name}
+                          position="absolute"
                           left={left}
                           top={top}
                           currentTableId={tableid => this.setState({ currentTableId: tableid })}
@@ -219,10 +228,23 @@ class TableContainer extends Component {
   }
 }
 
+TableContainer.propTypes = {
+  api: PropTypes.shape({
+    insertTable: PropTypes.func,
+    updateTable: PropTypes.func,
+    deleteTable: PropTypes.func,
+  }).isRequired,
+  tables: PropTypes.arrayOf.isRequired,
+  orders: PropTypes.arrayOf.isRequired,
+};
+
 const mapStateToProps = (state) => {
   return {
     tables: getRecords(state, { schema: 'Table' }),
+    orders: getRecords(state, { schema: 'Order' }),
     currentTableId: state.currentTableId,
   };
 };
+
+
 export default connect(mapStateToProps)(DropTarget(ItemTypes.TABLE, tableTarget, collect)(TableContainer));

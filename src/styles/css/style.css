@@ -1,0 +1,162 @@
+.waiter .waiter-header {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-auto-rows: minmax(20px, auto);
+  grid-gap: 0px;
+  padding: 10px; }
+  .waiter .waiter-header .title {
+    grid-column: 1/12;
+    background: #008B8B; }
+    .waiter .waiter-header .title h1 {
+      font-size: 30px;
+      padding: 30px;
+      color: white; }
+      .waiter .waiter-header .title h1 #icon {
+        margin-top: 4px;
+        margin-left: -30px;
+        margin-right: 10px; }
+  .waiter .waiter-header .user-profile {
+    grid-column: 12/17;
+    text-align: center;
+    background: #008B8B; }
+.waiter .waiter-body {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; }
+  .waiter .waiter-body .table {
+    min-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    margin: 10px;
+    max-width: 100px;
+    background: #5a5252; }
+    .waiter .waiter-body .table .table-name {
+      text-align: center;
+      font-weight: bold;
+      color: white; }
+    .waiter .waiter-body .table .table-timmer {
+      min-height: 30px;
+      margin-top: 50px;
+      background: #f0680e;
+      font-weight: bold;
+      color: #0e0d0d;
+      text-align: center; }
+    .waiter .waiter-body .table .table-available {
+      min-height: 30px;
+      margin-top: 50px;
+      background: #49f505;
+      font-weight: bold;
+      color: black;
+      text-align: center; }
+
+.table {
+  position: 'absolute';
+  background: #5a5252; }
+  .table .table-name {
+    text-align: center;
+    font-weight: bold;
+    color: white; }
+  .table .table-timmer {
+    min-height: 30px;
+    margin-top: 50px;
+    background: #f0680e;
+    font-weight: bold;
+    color: #0e0d0d;
+    text-align: center; }
+  .table .table-available {
+    min-height: 30px;
+    margin-top: 50px;
+    background: #49f505;
+    font-weight: bold;
+    color: black;
+    text-align: center; }
+
+.waiter-orders .header {
+  text-align: center;
+  background: whitesmoke;
+  margin-bottom: 10px; }
+.waiter-orders .table-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 150px;
+  overflow: hidden;
+  overflow-y: scroll; }
+.waiter-orders .current-order-table-body {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-auto-rows: minmax(20px, auto);
+  grid-gap: 0px; }
+  .waiter-orders .current-order-table-body .table {
+    margin-left: 5px;
+    height: 150px;
+    max-width: 500px;
+    overflow: hidden;
+    overflow-y: scroll;
+    grid-column: 1/9; }
+  .waiter-orders .current-order-table-body .order-button {
+    text-align: center;
+    grid-column: 9/11;
+    margin-top: 50px; }
+.waiter-orders .menu-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; }
+  .waiter-orders .menu-item .sub-menu-item .header {
+    text-align: center;
+    flex: 0 0 100%; }
+  .waiter-orders .menu-item .sub-menu-item .body {
+    height: 200px;
+    overflow: hidden;
+    overflow-y: scroll;
+    font-size: 20px;
+    text-align: center;
+    background: #fff; }
+  .waiter-orders .menu-item .menu-item-box {
+    overflow: hidden;
+    padding: 5px;
+    text-align: center;
+    min-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    max-width: 100px;
+    margin: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    background: gray;
+    overflow-x: scroll;
+    color: #000; }
+
+.item-element {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  justify-content: start;
+  margin: 5px; }
+  .item-element .item-sn {
+    margin-right: 10px; }
+  .item-element .item-minus {
+    align-items: flex-start;
+    margin-right: 5px; }
+    .item-element .item-minus Button {
+      align-items: center; }
+  .item-element .item-name {
+    text-align: start;
+    overflow: hidden;
+    text-align: center;
+    font-size: 12px;
+    margin-left: 0px;
+    margin-right: 10px; }
+    .item-element .item-name Tag {
+      margin: 20px; }
+
+.user-setting .change-password {
+  max-width: 450px; }
+  .user-setting .change-password #control-group {
+    margin-bottom: 10px; }
+  .user-setting .change-password #icon {
+    margin-top: 5px;
+    margin-right: 5px; }
+
+/*# sourceMappingURL=style.css.map */

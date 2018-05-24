@@ -7,7 +7,7 @@ class Api {
   insertMenuItem(object) { }
   updateMenuItem(menuitem, id) {}
   deleteMenuItem(id) {}
-  reconcile(itemStock) { }
+  reconcile(itemStock) {}
   insertTable(table) {}
   updateTable(obj, id) {}
   deleteTable(id) {}
@@ -17,8 +17,8 @@ class Api {
   cancelOrder(orderId) {}
   completeOrder(orderId) {}
   insertUser(user) {}
-
   extractSales(itemTypeId, start, end) {}
+  getTable() {}
 }
 
 export default Api;

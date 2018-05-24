@@ -22,7 +22,7 @@ class Cashier extends Component {
             <Orders api={api} />
           </Grid.Column>
           <Grid.Column>
-            <StockWatch api={api}/>
+            <StockWatch api={api} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row stretched>

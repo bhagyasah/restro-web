@@ -1,12 +1,12 @@
 import * as production from './production';
-import * as development from './development';
+// import * as development from './development';
 
-// eslint-disable-next-line import/no-mutable-exports
+ // eslint-disable-next-line import/no-mutable-exports
 let config = production;
 
-if (process.env.NODE_ENV !== 'production') {
-  config = Object.assign({}, production, development);
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   config = Object.assign({}, production, development);
+// }
 
 export const {
   MODE,

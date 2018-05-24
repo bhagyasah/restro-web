@@ -1,6 +1,8 @@
 const reducer = (state = [], action) => {
   console.log('Reducer', action);
   switch (action.type) {
+    case 'CURRENT.TABLE':
+      return action.payload;
     case 'SCHEMA.POPULATE':
       return action.payload;
     case 'SCHEMA.INSERT':
@@ -9,7 +11,6 @@ const reducer = (state = [], action) => {
       const res = state.map(s => (s.id !== action.payload.id ? s : { ...s, ...action.payload }));
       console.log(res);
       return res;
-
     }
     case 'SCHEMA.DELETE':
       return state.filter(s => s.id !== action.payload.id);
@@ -20,7 +21,6 @@ const reducer = (state = [], action) => {
 
 const schemaReducer = (...schemas) => {
   const initialState = {};
-
   schemas.forEach((schema) => {
     initialState[schema] = [];
   });
@@ -32,7 +32,6 @@ const schemaReducer = (...schemas) => {
         [action.schema]: reducer(state[action.schema], action),
       });
     }
-
     return state;
   };
 };
